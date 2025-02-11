@@ -9,31 +9,34 @@ public class AutoreController {
 
     @GetMapping
     @RequestMapping ("/listaAutori")
-    public void getAll(){
-
+    public String getAll(){
+        return "funziona";
     }
 
     @GetMapping
     @RequestMapping("/autore")
-    public void getById(){
+    public String getById(){
+        return "funziona";
 
     }
 
     @PostMapping
     @RequestMapping("/createAutore")
-    public void createNewPost(){
+    public String createNewPost(){
+        return "funziona";
 
     }
 
     @PutMapping
     @RequestMapping("/editAutore")
-    public void editPost(){
+    public String editPost(){
+        return "funziona";
 
     }
     @DeleteMapping
     @RequestMapping("/delete")
-    public void deletePost(){
-
+    public String deletePost(){
+        return "funziona";
     }
 
 }
