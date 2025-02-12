@@ -12,48 +12,45 @@ import java.util.List;
 @RestController
 @RequestMapping("/blogPosts")
 public class PostController {
+
     @Autowired
     Blog blog;
 
-
-    @GetMapping("/listaPosts")
-    public List<Post> getAll(){
-        return blog.getAll();
-    }
-
-    @GetMapping("/singlePost/{id}")
-    public Post getById(@PathVariable long id){
-        return blog.getPostById(id);
-
-    }
-
-    @PostMapping("/createPost")
+    @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public String createNewPost(@RequestBody Post p ){
-
-/*      String post="Il post con id:" +p.getId() + " è stato creato";
-        post+="Categoria: " + p.getCategoria()+"/n";
-        post+="Titolo: " + p.getTitolo()+"/n";
-        post+="Contenuto: " + p.getContenuto()+"/n";
-        post+="Tempo di lettura in minuti: " + p.getTempoDiLettura()+"/n";
-        post+="autore: "+ p.getAutore();*/
-
-       String post=" IL post con id: " + p.getId() +"è creato "+p;
-
-        return post;
-
+    public String newPost(@RequestBody Post post) {
+        int id =blog.nuovoPost(post);
+        return "Il nuovo post con " +id+ " è stato inserito con successo";
     }
 
-    @PutMapping("/editPost")
-    public String editPost(){
-        return "funziona";
 
+    @GetMapping(produces = "application/json")
+    public List<Post> allPosts() {
+        return blog.vediPost();
     }
-    @DeleteMapping("/delete")
-    public String deletePost(){
-        return "funziona";
 
+    @GetMapping("/{id}")
+    public Post vediPost(@PathVariable int id) {
+        return blog.recuperaPost(id);
     }
+
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public String modificaPost(@RequestBody Post postModificato, @PathVariable int id) {
+        if(blog.modificaPost(postModificato, id)) {
+            return "Modifica avvenuta con successo";
+        }else {
+            return "Impossibile effettuare la modifica. Post non presente nel sistema";
+        }
+    }
+
+
+    @DeleteMapping("/{id}")
+    public String cancellaPost(@PathVariable int id) {
+        return blog.cancellaPost(id);
+    }
+
+
 
 
 }
